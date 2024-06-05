@@ -1,24 +1,34 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Layout from './Layout';
+import Main from './Main';
+import UserContext from './UserContext';
 
 function App() {
+
+    const [isLogin, setIsLoggedIn] = useState(false);
+    const value = { isLogin, setIsLoggedIn };
+    // const [userName, setUsername] = useState('')
+    const accessToken = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+//  setisLoggedIn(accessToken !== null)
+    if (accessToken) {
+      setIsLoggedIn(true);
+    }
+  }, [accessToken]);
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   
+    <UserContext.Provider value={value}>
+    <>
+    <Layout>
+      <Main/>
+    </Layout>
+    </>
+   </UserContext.Provider>
   );
 }
 
